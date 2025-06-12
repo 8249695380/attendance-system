@@ -1,0 +1,12 @@
+{
+  "2025-06-09": [
+    { "name": "Alice", "present": true },
+    { "name": "Bob", "present": false },
+    { "name": "Charlie", "present": true }
+  ],
+  "2025-06-08": [
+    { "name": "Alice", "present": false },
+    { "name": "Bob", "present": true },
+    { "name": "Charlie", "present": true }
+  ]
+}

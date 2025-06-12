@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+ <style>
+  :root {
+    --primary: #4F46E5;
+    --background: #f9f9f9;
+    --text: #333;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+    --font: 'Inter', sans-serif;
+  }
+
+  body {
+    font-family: var(--font);
+    background: var(--background);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1, h2 {
+    color: var(--primary);
+    margin-top: 20px;
+  }
+
+  .container {
+    background: #fff;
+    padding: 30px;
+    margin-top: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    width: 90%;
+    max-width: 400px;
+  }
+
+  input, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+
+  input:focus {
+    border-color: var(--primary);
+    outline: none;
+  }
+
+  button {
+    background: var(--primary);
+    color: white;
+    font-weight: bold;
+    border: none;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #4338ca;
+    cursor: pointer;
+  }
+
+  .link {
+    color: var(--primary);
+    text-decoration: underline;
+    cursor: pointer;
+    display: block;
+    margin-top: 12px;
+    text-align: center;
+  }
+
+  .success {
+    color: green;
+    margin-top: 12px;
+  }
+
+  .error {
+    color: red;
+    margin-top: 12px;
+  }
+ </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance System</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div style="max-width: 600px; margin: auto;">
+  <div id="dashboard" style="display: none; margin-bottom: 20px;">
+  <h2>👋 Welcome, <span id="user-name"></span>!</h2>
+  <p>📅 Total attendance entries: <span id="total-days">0</span></p>
+  <p>🧑‍🎓 Unique students tracked: <span id="unique-students">0</span></p>
+  <button onclick="logout()">🚪 Logout</button>
+  </div>
+  <hr>
+<h3>👨‍🏫 Manage Students</h3>
+
+<input type="text" id="newStudentName" placeholder="New student name">
+<button onclick="addStudent()">➕ Add Student</button>
+
+<ul id="adminStudentList"></ul>
+  <div id="calendar-container" style="display:none;">
+  <h3>📆 Attendance Calendar</h3>
+  <div id="calendar"></div>
+  </div>
+  <div id="chart-section" style="display: none; margin-top: 30px;">
+  <h3>📊 Student Attendance Report</h3>
+  <canvas id="attendanceChart" width="600" height="300"></canvas>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+  if (!localStorage.getItem('loggedIn')) {
+    window.location.href = 'login.html';
+  }
+</script>
+  <div style="margin-top: 20px;">
+  <input type="text" id="searchInput" placeholder="🔍 Search by student name">
+  <input type="date" id="filterDate">
+  <button onclick="applyFilters()">Apply Filters</button>
+  </div>
+  <h1>Attendance Tracker</h1>
+  <button onclick="logout()">Logout</button>
+  <h1>Attendance Tracker</h1>
+<label>Select Date: <input type="date" id="date-picker" onchange="loadAttendanceByDate()"></label>
+<p id="summary"><strong>Summary:</strong> Present: 0 | Absent: 0</p>
+<br><br>
+  <ul id="student-list"></ul>
+  <button onclick="saveAttendance()">Save Attendance</button>
+  <h3>📖 Attendance History</h3>
+<table id="history-table" border="1" cellspacing="0" cellpadding="5">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Present</th>
+      <th>Absent</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+<button onclick="openStudentManager()">👥 Manage Students</button>
+<div id="student-manager" style="display:none; margin-top:20px;">
+  <h3>Manage Students</h3>
+  <ul id="student-edit-list"></ul>
+  <input type="text" id="new-student-name" placeholder="New student name">
+  <button onclick="addStudent()">Add</button>
+  <button onclick="closeStudentManager()">Close</button>
+</div>
+  <button onclick="downloadCSV()">Download CSV</button>
+  <button onclick="printAttendance()">🖨️ Print</button>
+  <button onclick="logout()">Logout</button>
+  <script src="script.js"></script>
+  <h3>📊 Monthly Attendance Overview</h3>
+<canvas id="monthly-chart" width="600" height="300"></canvas>
+<canvas id="today-pie">
+<button onclick="generateMonthlyChart()">📅 Generate Monthly Chart</button>
+<label for="month-picker">Select Month:</label>
+<input type="month" id="month-picker">
+<button onclick="generateMonthlyChart()">📊 Show Chart</button>
+<canvas id="monthly-chart" width="600" height="300" style="margin-top: 20px;"></canvas>
+<button onclick="downloadExcel()">📥 Export to Excel</button>
+<button onclick="downloadPDF()" style="margin-top: 10px;">🖨️ Download PDF Report</button>
+<div id="auth">
+<button onclick="downloadReport()" style="margin-top: 20px;">📥 Download Excel Report</button>
+<h3>Login</h3>
+<input id="username" placeholder="Username">
+<input id="password" placeholder="Password" type="password">
+<button onclick="login()">Login</button>
+<button onclick="register()">Register</button>
+</div>
+</div>
+</body>
+</html>

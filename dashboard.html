@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>📊 Attendance Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>👋 Welcome, <span id="username">Admin</span></h1>
+
+  <div class="container dashboard">
+    <div class="card">
+      <h2>Total Students</h2>
+      <p id="totalStudents">--</p>
+    </div>
+    <div class="card">
+      <h2>Attendance Today</h2>
+      <p id="presentToday">--</p>
+    </div>
+    <div class="card">
+      <h2>Absent Today</h2>
+      <p id="absentToday">--</p>
+    </div>
+  </div>
+  <button id="themeToggle" style="position: absolute; top: 10px; right: 10px;">🌙 Toggle Theme</button>
+  <div class="container">
+  <h2>🗓️ Monthly Attendance Calendar</h2>
+  <!-- Student Selection -->
+  <label for="studentSelect">Select Student:</label>
+  <select id="studentSelect">
+    <option value="">-- All Students --</option>
+  </select>
+  <!-- Month Controls -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+    <button id="prevMonth">⬅️ Prev</button>
+    <h3 id="monthLabel"></h3>
+    <button id="nextMonth">➡️ Next</button>
+  </div>
+  <div id="calendar" class="calendar"></div>
+</div>
+  <div class="container">
+  <h2>📋 Attendance Table</h2>
+  <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+    <input id="searchName" placeholder="🔍 Search by name..." style="flex: 1;">
+    <select id="statusFilter">
+      <option value="">All</option>
+      <option value="Present">Present</option>
+      <option value="Absent">Absent</option>
+    </select>
+    <input id="dateFilter" type="date">
+  </div>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="attendanceTable"></tbody>
+  </table>
+</div>
+  <div class="container">
+    <h2>📋 Attendance Table</h2>
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody id="attendanceTable"></tbody>
+    </table>
+  </div>
+  <script src="/dashboard.js"></script>
+  <div class="container">
+  <h2>🗓️ Monthly Attendance Calendar</h2>
+  <div id="calendar" class="calendar"></div>
+  </div>
+</body>
+</html>
